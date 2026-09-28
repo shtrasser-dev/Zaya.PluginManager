@@ -1,0 +1,6 @@
+<Project>
+  <PropertyGroup>
+    <!-- Package major for all Zaya.PluginManager projects. -->
+    <ZayaPluginManagerMajor>1</ZayaPluginManagerMajor>
+  </PropertyGroup>
+</Project>

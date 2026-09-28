@@ -1,0 +1,26 @@
+<Project>
+  <!--
+    Impl-only until an abstract package exists:
+      Version = Major.0.ImpMajor.ImpMinor
+    The second digit is reserved for a future ZayaVersionInterface.
+  -->
+  <PropertyGroup Condition="'$(ZayaVersionRole)' == 'impl'">
+    <Version>$(ZayaPluginManagerMajor).0.$(ZayaVersionImpMajor).$(ZayaVersionImpMinor)</Version>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(ZayaVersionRole)' != 'impl'">
+    <Version>$(ZayaPluginManagerMajor).0.0</Version>
+  </PropertyGroup>
+
+  <Target Name="ValidateZayaVersion" BeforeTargets="BeforeBuild;GenerateNuspec">
+    <Error
+      Condition="'$(ZayaPluginManagerMajor)' == ''"
+      Text="ZayaPluginManagerMajor must be set in Directory.Build.props." />
+    <Error
+      Condition="'$(ZayaVersionRole)' == 'impl' AND ('$(ZayaVersionImpMajor)' == '' OR '$(ZayaVersionImpMinor)' == '')"
+      Text="Impl project must set ZayaVersionImpMajor and ZayaVersionImpMinor." />
+    <Error
+      Condition="$([System.Version]::Parse('$(Version)').Major) != $(ZayaPluginManagerMajor)"
+      Text="Version $(Version) major must equal ZayaPluginManagerMajor $(ZayaPluginManagerMajor)." />
+  </Target>
+</Project>
